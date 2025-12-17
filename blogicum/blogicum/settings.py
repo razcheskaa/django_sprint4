@@ -1,7 +1,5 @@
 from pathlib import Path
 
-import os
-
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -10,31 +8,35 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-!c^=c9mcg0vb!az@4*8r=w-v0^rr1%4k!d02o$8g7mvuo!&^22'
+SECRET_KEY = 'django-insecure-xn5)z4fdefk$^j!_&-!xukk-d@@eprv!nes2l_wp5f2=6_!l(a'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    'localhost',
     '127.0.0.1',
+    'localhost',
 ]
 
 
 # Application definition
 
+STATICFILES_DIRS = [
+    BASE_DIR / 'static',
+]
+
 INSTALLED_APPS = [
+    'blog.apps.BlogConfig',
+    'pages.apps.PagesConfig',
+    'users.apps.UsersConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'django_bootstrap5',
-    'blog.apps.BlogConfig',
-    'pages.apps.PagesConfig',
-    'core.apps.CoreConfig',
     'debug_toolbar',
+    'django_bootstrap5',
 ]
 
 MIDDLEWARE = [
@@ -46,10 +48,6 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'debug_toolbar.middleware.DebugToolbarMiddleware',
-]
-
-INTERNAL_IPS = [
-    '127.0.0.1',
 ]
 
 ROOT_URLCONF = 'blogicum.urls'
@@ -110,7 +108,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'ru-RU'
 
-TIME_ZONE = 'Asia/Almaty'
+TIME_ZONE = 'Europe/Moscow'
 
 USE_I18N = True
 
@@ -124,33 +122,22 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'static'),
-]
-
-# Media
-
-MEDIA_URL = '/media/'
-
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# Login
+CSRF_FAILURE_VIEW = 'pages.views.csrf_failure'
+
+AUTH_USER_MODEL = 'users.User'
 
 LOGIN_REDIRECT_URL = 'blog:index'
 
-LOGIN_URL = 'login'
-
-# CSRF
-
-CSRF_FAILURE_VIEW = 'pages.views.csrf_failure'
-
-# Email
+LOGIN_URL = 'users:login'
 
 EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
+EMAIL_FILE_PATH = BASE_DIR / 'sent_emails/'
 
-EMAIL_FILE_PATH = BASE_DIR / 'sent_emails'
+MEDIA_ROOT = BASE_DIR / 'media/'
+
+MEDIA_URL = '/media/'
